@@ -23,8 +23,4 @@ const forecast = (lat, lon, callback) => {
     });
 }
 
-forecast(40, 32.8, (error, data) => {
-    console.log("error:" + error)
-    if (!error)
-        console.log("region:" + data.location.region + "\ntemp:" + data.data.temperature)
-})
+module.exports = forecast;
