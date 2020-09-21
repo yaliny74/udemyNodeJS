@@ -16,14 +16,14 @@ yargs.command({
 });
 
 const geocodeHelper = (address) => {
-    geocode(address, (error, data) => {
+    geocode(address, (error, {place, lat, lon}) => {
         if (error) {
             return console.error(error)
         }
-        console.log(data.place)
-        console.debug("lat =" +  data.lat + " data.lon:"  + data.lon)
+        console.log(place)
+        console.debug("lat =" +  lat + " lon:"  + lon)
         
-        forecast(data.lat, data.lon, (forecastError, forecastData) => {
+        forecast(lat, lon, (forecastError, forecastData) => {
             if (forecastError) {
                 return console.error(forecastError)
             }
