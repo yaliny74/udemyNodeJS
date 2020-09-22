@@ -2,7 +2,6 @@ const path = require('path')
 const express = require('express')
 
 const forecast = require('../../weather-app/utils/forecast')
-const { networkInterfaces } = require('os')
 const pubDir = path.join(__dirname, "../public")
 
 const app = express()
@@ -27,7 +26,7 @@ app.get('/weather', (req, res) => {
     })  
      
 })
-app.get('*', (req, res) => res.send(`bir siktir git lan olmayan pathler isteme: ${req.path}`))
+app.get('*', (req, res) => res.send(`siktir git olmayan pathler isteme: ${req.path}`))
 
 
 app.listen(3000, () => console.log("http server started on port 3000"))
