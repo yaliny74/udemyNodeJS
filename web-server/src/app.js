@@ -16,16 +16,30 @@ app.get('/help', (req, res) => {
     })
 })
 app.get('/about', (req, res) => res.send("<html><body><h1>this is about</body></html>"))
-app.get('/weather', (req, res) => {
+app.get('/weatherFix', (req, res) => {
     
     forecast(42, 29, (forecastError, forecastData) => {
         if (forecastError) {
             return res.send(forecastError)
         }        
         res.send(forecastData)
-    })  
-     
+    })       
 })
+
+app.get('/weather', (req, res) => {
+    if (req.query.address === undefined) {
+        res.send('error: provide an address bitch!')
+        return
+    }
+    else {
+        res.send({
+            address: req.query.address,
+            temp: 32
+        })
+    }    
+})
+
+
 app.get('*', (req, res) => res.send(`siktir git olmayan pathler isteme: ${req.path}`))
 
 
