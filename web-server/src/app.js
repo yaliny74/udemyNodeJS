@@ -1,7 +1,8 @@
 const path = require('path')
 const express = require('express')
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
 
-const forecast = require('../../weather-app/utils/forecast')
 const pubDir = path.join(__dirname, "../public")
 
 const app = express()
@@ -27,16 +28,38 @@ app.get('/weatherFix', (req, res) => {
 })
 
 app.get('/weather', (req, res) => {
+
     if (req.query.address === undefined) {
-        res.send('error: provide an address bitch!')
-        return
+        return res.send('error: provide an address bitch!')
     }
     else {
-        res.send({
-            address: req.query.address,
-            temp: 32
-        })
-    }    
+        geocode(req.query.address, (error, response) => {
+            if (error) {
+                return res.send({error
+                    //'error': error
+                })
+            }
+            const {place, lat, lon} = response
+            console.log(place)
+            
+            forecast(lat, lon, (forecastError, forecastData) => {
+                if (forecastError) {
+                    return res.send({
+                        'error' : forecastError
+                    })
+                }
+                else {
+                    res.send({
+                        'place': place,
+                        'lat': forecastData.location.lat,
+                        'lon':  forecastData.location.lon,
+                        'temp': forecastData.data.temperature,
+                        'desc': forecastData.data.weather_descriptions
+                    })
+                }
+            })                
+        })                   
+    }        
 })
 
 
