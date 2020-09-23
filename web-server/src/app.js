@@ -65,5 +65,6 @@ app.get('/weather', (req, res) => {
 
 app.get('*', (req, res) => res.send(`siktir git olmayan pathler isteme: ${req.path}`))
 
-
-app.listen(3000, () => console.log("http server started on port 3000"))
+//app.listen(3000, () => console.log("http server started on port 3000"))
+const port = process.env.PORT || 3000
+app.listen(port, () => console.log("http server started on port " + port))
